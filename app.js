@@ -3,10 +3,12 @@ if (process.env.NODE_ENV != "production") {
 }
 const express = require("express");
 const cors = require("cors");
+const sslRedirect = require("heroku-ssl-redirect");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(sslRedirect());
 const ProductController = require("./app/controllers/ProductController")
 const UserController = require("./app/controllers/UserController");
 const authentication = require('./app/middlewares/authentication')
