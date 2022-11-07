@@ -4,7 +4,6 @@ const Jwt = require("../helper/jwt");
 const User = db.user;
 class UserController {
   static async login(req, res, next) {
-    res.send('llk')
     const { username, password } = req.body;
     if (!username || !password)
       return res.status(400).json({ message: "username, password required!" });

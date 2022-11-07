@@ -16,10 +16,14 @@ app.post("/login", UserController.login);
 app.post("/register", UserController.register);
 app.get("/product", ProductController.index);
 app.get("/product/:id", ProductController.show);
-app.use(authentication)
-app.use(authorization);
-app.post("/product", ProductController.create);
-app.put("/product/:id", ProductController.update);
-app.delete("/product/:id", ProductController.delete);
+
+app.post("/product", authentication, authorization, ProductController.create);
+app.put(
+  "/product/:id",
+  authentication,
+  authorization,
+  ProductController.update
+);
+app.delete("/product/:id", authentication, authorization, ProductController.delete);
 
 module.exports = app;
