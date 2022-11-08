@@ -4,23 +4,32 @@ const Jwt = require("../helper/jwt");
 const User = db.user;
 class UserController {
   static async login(req, res, next) {
-    const { username, password } = req.body;
-    if (!username || !password)
-      return res.status(400).json({ message: "username, password required!" });
-    const user = await User.findOne({ username: username });
-    if (!user) {
-      return res.status(400).json({ message: "User Not Found!" });
+    try {
+      const { username, password } = req.body;
+      if (!username || !password)
+        return res
+          .status(400)
+          .json({ message: "username, password required!" });
+      const user = await User.findOne({ username: username });
+      if (!user) {
+        return res.status(400).json({ message: "User Not Found!" });
+      }
+      if (Bcrypt.compare(password, user.password)) {
+        const infoUser = {
+          id: user.id,
+          username: user.username,
+          full_name: user.full_name,
+        };
+        const token = Jwt.Sign(infoUser);
+        return res.status(201).json({ data: { token, user: infoUser } });
+      }
+      return res.status(400).json({ message: "Username or Password Invalid!" });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message || "Some error retrieving products.",
+        error,
+      });
     }
-    if (Bcrypt.compare(password, user.password)) {
-      const infoUser = {
-        id: user.id,
-        username: user.username,
-        full_name: user.full_name,
-      };
-      const token = Jwt.Sign(infoUser);
-      return res.status(201).json({ data: { token, user: infoUser } });
-    }
-    return res.status(400).json({ message: "Username or Password Invalid!" });
   }
   static async register(req, res, next) {
     try {
@@ -40,7 +49,12 @@ class UserController {
       });
       const result = await user.save(user);
       return res.status(201).json({ data: result });
-    } catch (error) {}
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message || "Some error retrieving products.",
+        error,
+      });
+    }
   }
 }
 module.exports = UserController;

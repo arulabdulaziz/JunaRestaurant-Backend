@@ -7,15 +7,19 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-const ProductController = require("./app/controllers/ProductController")
+const ProductController = require("./app/controllers/ProductController");
 const UserController = require("./app/controllers/UserController");
-const authentication = require('./app/middlewares/authentication')
+const ChartController = require("./app/controllers/ChartController");
+const authentication = require("./app/middlewares/authentication");
 const authorization = require("./app/middlewares/authorization");
 require("./app/models");
 app.post("/login", UserController.login);
 app.post("/register", UserController.register);
 app.get("/product", ProductController.index);
 app.get("/product/:id", ProductController.show);
+
+app.get("/chart", authentication, ChartController.show);
+app.post("/chart", authentication, ChartController.create);
 
 app.post("/product", authentication, authorization, ProductController.create);
 app.put(
@@ -24,6 +28,11 @@ app.put(
   authorization,
   ProductController.update
 );
-app.delete("/product/:id", authentication, authorization, ProductController.delete);
+app.delete(
+  "/product/:id",
+  authentication,
+  authorization,
+  ProductController.delete
+);
 
 module.exports = app;

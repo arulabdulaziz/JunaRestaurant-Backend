@@ -6,7 +6,8 @@ const db = {
   mongoose,
   url: dbConfig.url,
   product: require("./product.model")(mongoose),
-  user: require("./user.model")(mongoose)
+  user: require("./user.model")(mongoose),
+  chart: require("./chart.model")(mongoose),
 };
 db.mongoose
   .connect(db.url, { useNewUrlParser: true, useUnifiedTopology: true })

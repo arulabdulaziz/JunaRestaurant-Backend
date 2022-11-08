@@ -1,22 +1,36 @@
 # JunaRestaurant - Backend
+
 For the deployed link, follow link below
+
 https://juna-restaurant.herokuapp.com/product
 
+### For the apps mobile
+
+Follow link below
+https://github.com/arulabdulaziz/JunaRestaurant-Mobile
+
 ### Account
+
 You can use account below
+
 - As user
+
 ```yaml
-    username: user
-    password: 1234
+username: user
+password: 1234
 ```
+
 - Or you can use as admin
+
 ```yaml
-    username: admin
-    password: 1234
+username: admin
+password: 1234
 ```
 
 ## API Documentation
+
 ### Basic Response
+
     - Success
     {
         "data": Object | Array
@@ -25,7 +39,9 @@ You can use account below
     {
         "message": String
     }
+
 ### Login
+
     Url: /login
     Method: POST
     Body: {
@@ -38,7 +54,9 @@ You can use account below
             "user": Object
         }
     }
+
 ### Register
+
     Url: /register
     Method: POST
     Body: {
@@ -49,19 +67,25 @@ You can use account below
     response: {
         "data": Object
     }
+
 ### Get All Product
+
     Url: /product
     Method: GET
     response: {
         "data": Array<Object>
     }
+
 ### Get One Product By id
+
     Url: /product/:id
     Method: GET
     response: {
         "data": Object
     }
-### Add Product 
+
+### Add Product
+
     Url: /product
     Method: POST
     Headers: {
@@ -75,7 +99,9 @@ You can use account below
     response: {
         "data": Object
     }
-### Update Product 
+
+### Update Product
+
     Url: /product/:id
     Method: PUT
     Headers: {
@@ -89,7 +115,9 @@ You can use account below
     response: {
         "data": Object
     }
-### Delete Product 
+
+### Delete Product
+
     Url: /product/:id
     Method: DELETE
     Headers: {
