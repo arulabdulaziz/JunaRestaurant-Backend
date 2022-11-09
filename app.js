@@ -17,22 +17,12 @@ app.post("/login", UserController.login);
 app.post("/register", UserController.register);
 app.get("/product", ProductController.index);
 app.get("/product/:id", ProductController.show);
-
-app.get("/chart", authentication, ChartController.show);
-app.post("/chart", authentication, ChartController.create);
-
-app.post("/product", authentication, authorization, ProductController.create);
-app.put(
-  "/product/:id",
-  authentication,
-  authorization,
-  ProductController.update
-);
-app.delete(
-  "/product/:id",
-  authentication,
-  authorization,
-  ProductController.delete
-);
+app.use(authentication);
+app.get("/chart", ChartController.show);
+app.post("/chart", ChartController.create);
+app.use(authorization);
+app.post("/product", ProductController.create);
+app.put("/product/:id", ProductController.update);
+app.delete("/product/:id", ProductController.delete);
 
 module.exports = app;
