@@ -163,22 +163,50 @@ class ChartController {
   static async checkout(req, res, next) {
     try {
       const userId = req.loginUser.id;
+      const { no_table, id } = req.body;
+      if (!id) return res.status(200).json({ message: "Id chart required" });
+      if (!no_table || !Number(no_table))
+        return res.status(200).json({ message: "No. Table Incorrect" });
+      let products = req?.body?.products ? req?.body?.products : [];
+      products = products.filter(
+        (e) =>
+          e.id &&
+          (Number(e.price) || Number(e.price) === 0) &&
+          Number(e.quantity) &&
+          e.name &&
+          e.picture
+      );
+      if (!products || products.length === 0) {
+        return res.status(400).json({
+          message: `Products Cannot Empty! Send Using Format Array<Object{
+          id: String
+          price: Number
+          quantity: Number
+          name: String
+          picture: String
+        }>`,
+        });
+      }
+      const totalPrice = products
+        .map((e) => Number(e.price) * Number(e.quantity))
+        .reduce((partialSum, a) => partialSum + a, 0);
       const existedChart = await Chart.findOne({
+        id,
         user_id: userId,
         is_checkouted: false,
       });
       if (!existedChart) {
-        return res.status(400).json({ message: "No. Table, Products Required" });
-      }
-      const products = existedChart.products.filter(
-        (e) => e.id && Number(e.quantity)
-      );
-      if (!products && products.length === 0) {
-        return res.status(400).json({ message: "Product Required" });
+        return res.status(200).json({ message: "Id chart not found" });
       }
       const result = await Chart.findOneAndUpdate(
         { id: existedChart.id, user_id: userId, is_checkouted: false },
-        { ...existedChart._doc, products, is_checkouted: true },
+        {
+          ...existedChart._doc,
+          products,
+          total_price: totalPrice,
+          no_table,
+          is_checkouted: true,
+        },
         {
           returnOriginal: false,
           new: false,

@@ -186,6 +186,17 @@ password: 1234
     Headers: {
         "token": String<as user>
     }
+    Body: {
+        "no_table": Number
+        "products": Array<Object<{
+            "id": String
+            "price": Number
+            "name": String
+            "picture": String
+            "quantity": Number
+        }>
+        "id": String
+    }
     response: {
         "data": Object
     }
