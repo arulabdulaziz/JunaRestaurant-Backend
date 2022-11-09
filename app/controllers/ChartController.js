@@ -28,11 +28,9 @@ class ChartController {
   static async create(req, res, next) {
     try {
       const userId = req.loginUser.id;
-      const { no_table } = req.body;
-      if (!no_table || Number(no_table) || !(Number(no_table) === 0))
-        return res
-          .status(400)
-          .json({ message: "No Table (no_table) Required as a Number!" });
+      let { no_table } = req.body;
+      if (!no_table || Number(no_table))
+        no_table = 0
       let products = req?.body?.products ? req?.body?.products : [];
       products = products.filter(
         (e) =>
