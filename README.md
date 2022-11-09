@@ -200,3 +200,14 @@ password: 1234
     response: {
         "data": Object
     }
+
+### History
+
+    Url: /history
+    Method: GET
+    Headers: {
+        "token": String<as user>
+    }
+    response: {
+        "data": Array<Object>
+    }
