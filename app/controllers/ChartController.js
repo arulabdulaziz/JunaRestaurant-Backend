@@ -220,5 +220,17 @@ class ChartController {
       });
     }
   }
+  static async history(req, res, next) {
+    try {
+      const userId = req.loginUser.id;
+      const charts = await Chart.find({ user_id: userId, is_checkouted: true });
+      return res.status(200).send({ data: charts });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message || "Some error retrieving products.",
+        error,
+      });
+    }
+  }
 }
 module.exports = ChartController;
