@@ -178,3 +178,14 @@ password: 1234
     response: {
         "data": Object
     }
+
+### Add Product to Chart
+
+    Url: /checkout
+    Method: POST
+    Headers: {
+        "token": String<as user>
+    }
+    response: {
+        "data": Object
+    }

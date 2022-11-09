@@ -1,6 +1,5 @@
 const db = require("../models");
 const Chart = db.chart;
-const Product = db.product;
 class ChartController {
   static async show(req, res, next) {
     try {
@@ -153,7 +152,39 @@ class ChartController {
           new: false,
         }
       );
-      return res.status(201).json({ data: result });
+      return res.status(200).json({ data: result });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message || "Some error retrieving products.",
+        error,
+      });
+    }
+  }
+  static async checkout(req, res, next) {
+    try {
+      const userId = req.loginUser.id;
+      const existedChart = await Chart.findOne({
+        user_id: userId,
+        is_checkouted: false,
+      });
+      if (!existedChart) {
+        return res.status(400).json({ message: "No. Table, Products Required" });
+      }
+      const products = existedChart.products.filter(
+        (e) => e.id && Number(e.quantity)
+      );
+      if (!products && products.length === 0) {
+        return res.status(400).json({ message: "Product Required" });
+      }
+      const result = await Chart.findOneAndUpdate(
+        { id: existedChart.id, user_id: userId, is_checkouted: false },
+        { ...existedChart._doc, products, is_checkouted: true },
+        {
+          returnOriginal: false,
+          new: false,
+        }
+      );
+      return res.status(200).json({ data: result });
     } catch (error) {
       return res.status(500).json({
         message: error.message || "Some error retrieving products.",

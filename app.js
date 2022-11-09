@@ -21,6 +21,7 @@ app.use(authentication);
 app.get("/chart", ChartController.show);
 app.post("/chart", ChartController.create);
 app.post("/product_to_chart", ChartController.addProductToChart);
+app.post("/checkout", ChartController.checkout);
 app.use(authorization);
 app.post("/product", ProductController.create);
 app.put("/product/:id", ProductController.update);
