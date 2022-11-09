@@ -5,7 +5,10 @@ class ChartController {
   static async show(req, res, next) {
     try {
       const userId = req.loginUser.id;
-      const existedChart = await Chart.findOne({ user_id: userId });
+      const existedChart = await Chart.findOne({
+        user_id: userId,
+        is_checkouted: false,
+      });
       if (!existedChart) {
         const payload = {
           user_id: userId,
@@ -64,6 +67,7 @@ class ChartController {
       const existingChart = await Chart.findOneAndUpdate(
         {
           user_id: userId,
+          is_checkouted: false,
         },
         payload,
         {
@@ -100,7 +104,10 @@ class ChartController {
          }>`,
         });
       const userId = req.loginUser.id;
-      const existedChart = await Chart.findOne({ user_id: userId });
+      const existedChart = await Chart.findOne({
+        user_id: userId,
+        is_checkouted: false,
+      });
       if (!existedChart) {
         const payload = {
           user_id: userId,
@@ -139,7 +146,7 @@ class ChartController {
         .map((e) => Number(e.price) * Number(e.quantity))
         .reduce((partialSum, a) => partialSum + a, 0);
       const result = await Chart.findOneAndUpdate(
-        { id: existedChart.id, user_id: userId },
+        { id: existedChart.id, user_id: userId, is_checkouted: false },
         payload,
         {
           returnOriginal: false,

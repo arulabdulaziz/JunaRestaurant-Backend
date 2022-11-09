@@ -126,3 +126,55 @@ password: 1234
     response: {
         "data": Object
     }
+
+### Get Chart
+
+    Url: /chart
+    Method: GET
+    Headers: {
+        "token": String<as user>
+    }
+    response: {
+        "data": Object
+    }
+
+### Add Chart
+
+    Url: /chart
+    Method: POST
+    Headers: {
+        "token": String<as user>
+    }
+    Body: {
+        "no_table": Number
+        "products": Array<Object<{
+            "id": String
+            "price": Number
+            "name": String
+            "picture": String
+            "quantity": Number
+        }>>
+    }
+    response: {
+        "data": Object
+    }
+
+### Add Product to Chart
+
+    Url: /product_to_chart
+    Method: POST
+    Headers: {
+        "token": String<as user>
+    }
+    Body: {
+        "products": <Object<{
+            "id": String
+            "price": Number
+            "name": String
+            "picture": String
+            "quantity": Number
+        }>
+    }
+    response: {
+        "data": Object
+    }
