@@ -127,9 +127,6 @@ class ChartController {
             return e;
           }),
         };
-        payload.total_price = payload.products
-          .map((e) => Number(e.price) * Number(e.quantity))
-          .reduce((partialSum, a) => partialSum + a, 0);
       } else {
         const products = existedChart.products;
         products.push(product);
@@ -138,6 +135,9 @@ class ChartController {
           products,
         };
       }
+      payload.total_price = payload.products
+        .map((e) => Number(e.price) * Number(e.quantity))
+        .reduce((partialSum, a) => partialSum + a, 0);
       const result = await Chart.findOneAndUpdate(
         { id: existedChart.id, user_id: userId },
         payload,
