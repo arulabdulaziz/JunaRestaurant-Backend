@@ -7,9 +7,11 @@
     "node": "16.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "heroku-postbuild": "npm install --only=dev && npm install && npm run build"
+    "heroku-postbuild": "npm install --only=dev && npm install && npm run build",
+    "test": "NODE_ENV=test npx jest --runInBand --detectOpenHandles --forceExit",
+    "dev": "NODE_ENV=development nodemon server.js",
+    "prod": "NODE_ENV=production node server.js"
   },
   "keywords": [],
   "author": "",
@@ -22,5 +24,9 @@
     "http": "^0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.2"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1",
+    "supertest": "^6.3.1"
   }
 }
